@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import { ElefantContext } from 'elefant-state'
 import { FirebaseAPI } from './FirebaseAPI'
 import { ACTIONS } from './State'
+import { Modal } from './Modal'
 
 const months = [
   'Jan',
@@ -57,9 +58,14 @@ export const App = () => {
     <div style={{ textAlign: 'center', margin: '0 10px' }}>
       <h1 style={{ marginBottom: 10 }}>Utopia Brew Co. Brew Board</h1>
       <h3 style={{ marginTop: '0' }}>Upcoming Beers, Ciders, and Wines</h3>
+      {/* This is the main view */}
       <div style={styles.group}>
         {state.batches.map((batch) => (
-          <div key={batch.id} style={styles.batch}>
+          <div
+            key={batch.id}
+            onClick={() => dispatch({ type: ACTIONS.SELECT_BATCH, payload: batch })}
+            style={styles.batch}
+          >
             <div style={styles.rowOne}>
               <h2 style={styles.noMargin}>{batch.name}</h2>
 
@@ -92,6 +98,13 @@ export const App = () => {
           </div>
         ))}
       </div>
+      {/* This is the modal view */}
+      {state.showModal && (
+        <Modal
+          onClose={() => dispatch({ type: ACTIONS.CLOSE_MODAL })}
+          selectedBatch={state.selectedBatch}
+        />
+      )}
     </div>
   )
 }
@@ -105,6 +118,7 @@ const getStyles = () => ({
   batch: {
     border: '1px solid black',
     borderRadius: 10,
+    cursor: 'pointer',
     marginBottom: 20,
   },
   rowOne: {
