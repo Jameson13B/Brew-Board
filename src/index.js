@@ -1,27 +1,19 @@
 import React from 'react'
-      import ReactDOM from 'react-dom'
-      import './index.css'
-      import App from './App'
-      import { BrowserRouter as Router } from 'react-router-dom'
-      import { ElefantProvider } from 'elefant'
-      
-      require('dotenv').config()
+import ReactDOM from 'react-dom'
+import { BrowserRouter as Router } from 'react-router-dom'
+import { ElefantProvider } from 'elefant-state'
 
-      export const initialState = {}
-      export const reducer = (state, action) => {
-        switch (action.type) {
-          case 'default':
-            return state
-          default:
-            return state
-        }
-      }
-      
-      ReactDOM.render(
-        <Router>
-          <ElefantProvider reducer={reducer} initialState={initialState}>
-            <App />
-          </ElefantProvider>
-        </Router>,
-        document.getElementById('root'),
-      )
+import './index.css'
+import { App } from './App'
+import { initialState, reducer } from './State'
+
+require('dotenv').config()
+
+ReactDOM.render(
+  <Router>
+    <ElefantProvider reducer={reducer} initialState={initialState}>
+      <App />
+    </ElefantProvider>
+  </Router>,
+  document.getElementById('root'),
+)
