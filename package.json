@@ -9,6 +9,7 @@
     "dotenv": "^8.2.0",
     "elefant-state": "^1.1.5",
     "firebase": "^8.0.2",
+    "glamor": "^2.20.40",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.0",
