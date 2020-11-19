@@ -3,6 +3,7 @@ import { ElefantContext } from 'elefant-state'
 import { FirebaseAPI } from './FirebaseAPI'
 import { ACTIONS } from './State'
 import { Modal } from './Modal'
+import { CurrentBottles } from './CurrentBottles'
 
 const months = [
   'Jan',
@@ -60,6 +61,7 @@ export const App = () => {
       <h3 style={{ marginTop: '0' }}>Upcoming Beers, Ciders, and Wines</h3>
       {/* This is the main view */}
       <div style={styles.group}>
+        <CurrentBottles />
         {state.batches.map((batch) => (
           <div
             key={batch.id}
