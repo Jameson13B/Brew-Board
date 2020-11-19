@@ -33,6 +33,7 @@ export const Modal = ({ onClose, selectedBatch, children }) => {
           <input onChange={(e) => handleChange(e, 'name')} style={styles.input} value={form.name} />
         </div>
         <div>
+          {/* Change to dropdown. Planning, Fermenting, Cold Crashing, Botttled */}
           <h3>Status</h3>
           <input
             onChange={(e) => handleChange(e, 'status')}
