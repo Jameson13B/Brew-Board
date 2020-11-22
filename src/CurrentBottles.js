@@ -1,8 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { ElefantContext } from 'elefant-state'
 
+import { ACTIONS } from './State'
+
 export const CurrentBottles = () => {
-  const [state] = useContext(ElefantContext)
+  const [state, dispatch] = useContext(ElefantContext)
   const [readyBatches, setReadyBatches] = useState([])
   const styles = getStyles()
 
@@ -18,9 +20,14 @@ export const CurrentBottles = () => {
       {readyBatches.length === 0 && <h3>*Nothing Current. See Upcoming Below</h3>}
       {readyBatches.map((batch) => {
         return (
-          <div>
+          <div key={batch.id}>
             <div style={styles.topRow}>
-              <h3 style={styles.name}>{batch.name}</h3>
+              <h3
+                onClick={() => dispatch({ type: ACTIONS.SELECT_BATCH, payload: batch })}
+                style={styles.name}
+              >
+                {batch.name}
+              </h3>
               <h4 style={styles.abv}>{batch.abv || 'TBD'}</h4>
             </div>
             <p style={styles.notes}>{batch.notes}</p>
@@ -48,6 +55,7 @@ const getStyles = () => ({
     justifyContent: 'space-between',
   },
   name: {
+    cursor: 'pointer',
     margin: 0,
   },
   abv: {
