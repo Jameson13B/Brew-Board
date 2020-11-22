@@ -33,12 +33,25 @@ export const Modal = ({ onClose, selectedBatch, children }) => {
           <input onChange={(e) => handleChange(e, 'name')} style={styles.input} value={form.name} />
         </div>
         <div>
-          {/* Change to dropdown. Planning, Fermenting, Cold Crashing, Botttled */}
           <h3>Status</h3>
-          <input
+          <select
             onChange={(e) => handleChange(e, 'status')}
             style={styles.input}
             value={form.status}
+          >
+            <option value="Planning">Planning</option>
+            <option value="Fermenting">Fermenting</option>
+            <option value="Cold Crashing">Cold Crashing</option>
+            <option value="Bottled">Bottled</option>
+          </select>
+        </div>
+        <div>
+          <h3>Start</h3>
+          <input
+            onChange={(e) => handleChange(e, 'start')}
+            style={styles.input}
+            type="date"
+            value={form.start}
           />
         </div>
         <div>
@@ -54,8 +67,27 @@ export const Modal = ({ onClose, selectedBatch, children }) => {
           <h3>OG</h3>
           <input
             onChange={(e) => handleChange(e, 'original_grav')}
+            placeholder="TBD"
             style={styles.input}
             value={form.original_grav}
+          />
+        </div>
+        <div>
+          <h3>FG</h3>
+          <input
+            onChange={(e) => handleChange(e, 'final_grav')}
+            placeholder="TBD"
+            style={styles.input}
+            value={form.final_grav}
+          />
+        </div>
+        <div>
+          <h3>ABV</h3>
+          <input
+            onChange={(e) => handleChange(e, 'abv')}
+            placeholder="TBD"
+            style={styles.input}
+            value={form.abv}
           />
         </div>
         <div>
@@ -119,6 +151,7 @@ const getStyles = () => ({
     fontSize: '115%',
     outline: 'none',
     textAlign: 'center',
+    textAlignLast: 'center',
     width: 300,
   },
   textarea: {
