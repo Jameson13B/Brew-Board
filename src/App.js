@@ -24,6 +24,7 @@ const days = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat']
 export const App = () => {
   const [state, dispatch] = useContext(ElefantContext)
   const styles = getStyles()
+  const today = new Date()
 
   useEffect(() => {
     const unsubscribe$ = FirebaseAPI.currentBatches().onSnapshot((res) => {
@@ -47,8 +48,6 @@ export const App = () => {
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const getDiff = (batch) => {
-    const today = new Date()
-
     return Math.ceil((batch.projected.toDate().getTime() - today.getTime()) / (1000 * 3600 * 24))
   }
   const formatDate = (date) => {
@@ -62,43 +61,47 @@ export const App = () => {
       {/* This is the main view */}
       <div style={styles.group}>
         <CurrentBottles />
-        {state.batches.map((batch) => (
-          <div
-            key={batch.id}
-            onClick={() => dispatch({ type: ACTIONS.SELECT_BATCH, payload: batch })}
-            style={styles.batch}
-          >
-            <div style={styles.rowOne}>
-              <h2 style={styles.noMargin}>{batch.name}</h2>
+        <hr style={{ borderStyle: 'groove', marginBottom: 20, width: '85%' }} />
+        {state.batches
+          .filter((a) => a.status !== 'Bottled')
+          .map((batch) => (
+            <div
+              key={batch.id}
+              onClick={() => dispatch({ type: ACTIONS.SELECT_BATCH, payload: batch })}
+              style={styles.batch}
+            >
+              <div style={styles.rowOne}>
+                <h2 style={styles.noMargin}>{batch.name}</h2>
 
-              <h2 style={styles.noMargin}>{batch.status || 'Pending'}</h2>
-            </div>
+                <h2 style={styles.noMargin}>{batch.status || 'Pending'}</h2>
+              </div>
 
-            <div style={styles.rowTwo}>
-              <div style={styles.cell}>
-                <h3>Start</h3>
-                <p>{formatDate(batch.start.toDate())}</p>
+              <div style={styles.rowTwo}>
+                <div style={styles.cell}>
+                  <h3>Start</h3>
+                  <p>{formatDate(batch.start.toDate())}</p>
+                </div>
+                <div style={styles.cell}>
+                  <h3>Projected</h3>
+                  <p>{formatDate(batch.projected.toDate())}</p>
+                </div>
+                <div style={styles.cell}>
+                  <h3>Left</h3>
+                  <p>{batch.remaining} days</p>
+                </div>
+                <div style={styles.cellLast}>
+                  <h3>OG</h3>
+                  <p>{batch.original_grav || 'TBD'}</p>
+                </div>
               </div>
-              <div style={styles.cell}>
-                <h3>Projected</h3>
-                <p>{formatDate(batch.projected.toDate())}</p>
-              </div>
-              <div style={styles.cell}>
-                <h3>Left</h3>
-                <p>{batch.remaining} days</p>
-              </div>
-              <div style={styles.cellLast}>
-                <h3>OG</h3>
-                <p>{batch.original_grav}</p>
-              </div>
-            </div>
 
-            <div style={styles.rowThree}>
-              <h3 style={styles.noMargin}>Notes</h3>
-              <p>{batch.notes}</p>
+              <div style={styles.rowThree}>
+                <h3 style={styles.noMargin}>Notes</h3>
+                <p>{batch.notes}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        <h4>** End of List **</h4>
       </div>
       {/* This is the modal view */}
       {state.showModal && (
